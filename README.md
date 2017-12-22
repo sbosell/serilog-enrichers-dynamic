@@ -35,7 +35,7 @@ Log.Logger = new LoggerConfiguration()
              return !String.IsNullOrEmpty(propVal) ? propVal : null;
 
          }).CreateLogger();
-
+```
 
 ### Included enrichers
 
