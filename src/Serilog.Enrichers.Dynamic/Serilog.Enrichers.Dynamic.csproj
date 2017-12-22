@@ -1,20 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Enrich Serilog log events with properties from System.Environment.</Description>
+    <Description>Enrich Serilog log events with Dynamic properties</Description>
     <VersionPrefix>2.1.3</VersionPrefix>
-    <Authors>Serilog Contributors</Authors>
+    <Authors>Sam Bosell</Authors>
     <TargetFrameworks>net45;netstandard1.3</TargetFrameworks>
     <AssemblyName>Serilog.Enrichers.Dynamic</AssemblyName>
     <AssemblyOriginatorKeyFile>../../assets/Serilog.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
-    <PackageId>Serilog.Enrichers.Environment</PackageId>
+    <PackageId>Serilog.Enrichers.Dynamic</PackageId>
     <PackageTags>serilog;machine;enricher</PackageTags>
-    <PackageIconUrl>http://serilog.net/images/serilog-enricher-nuget.png</PackageIconUrl>
-    <PackageProjectUrl>http://serilog.net</PackageProjectUrl>
-    <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <PackageIconUrl>https://github.com/sbosell/serilog-enrichers-dynamic</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/sbosell/serilog-enrichers-dynamic</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/sbosell/serilog-enrichers-dynamic</PackageLicenseUrl>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <Version>1.0.0</Version>
+    <Company>Sam Bosell</Company>
+    <RepositoryUrl>https://github.com/sbosell/serilog-enrichers-dynamic</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
