@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27128.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serilog.Enrichers.Dynamic", "src\Serilog.Enrichers.Dynamic\Serilog.Enrichers.Dynamic.csproj", "{324BA030-DCE0-47B8-BDDE-C5945BA368BD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serilog.Enrichers.Dynamic.Tests", "test\Serilog.Enrichers.Dynamic.Tests\Serilog.Enrichers.Dynamic.Tests.csproj", "{A93FE3C6-0C5E-4CF5-BCD9-32106E21C37C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{324BA030-DCE0-47B8-BDDE-C5945BA368BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{324BA030-DCE0-47B8-BDDE-C5945BA368BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{324BA030-DCE0-47B8-BDDE-C5945BA368BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{324BA030-DCE0-47B8-BDDE-C5945BA368BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A93FE3C6-0C5E-4CF5-BCD9-32106E21C37C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A93FE3C6-0C5E-4CF5-BCD9-32106E21C37C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A93FE3C6-0C5E-4CF5-BCD9-32106E21C37C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A93FE3C6-0C5E-4CF5-BCD9-32106E21C37C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0DC0E085-A793-4894-92C3-05A378878C35}
+	EndGlobalSection
+EndGlobal
