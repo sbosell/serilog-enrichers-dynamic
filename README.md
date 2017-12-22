@@ -23,7 +23,7 @@ or for instance if you wanted to log the entire Service Stack Session:
 
 ```csharp
 Log.Logger = new LoggerConfiguration()
-    .Enrich.WithServiceStackObject(() =>
+    .Enrich.WithDynamic(() =>
          {
              var propVal = "";
              if (HostContext.AppHost == null) return null; ;

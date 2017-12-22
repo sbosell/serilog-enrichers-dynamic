@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>DBA0DE8B-1207-4263-A036-013CDBA21B2C</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/sbosell/serilog-enrichers-dynamic/licenseUrl>
+    <projectUrl>https://github.com/sbosell/serilog-enrichers-dynamic</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Provides a dynamic serilog enricher to log contextual information that is dynamic such as logged in user or anything you want.</description>
+    <releaseNotes>Initial commit</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>Serilog Enricher Logging</tags>
+  </metadata>
+</package>
