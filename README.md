@@ -2,6 +2,8 @@
 
 Enriches Serilog events with information that you specify dynamically.  There are a lot of great specific enrichers but none that let you pull any information from the context of your application and/or request.
  
+[![Build status](https://ci.appveyor.com/api/projects/status/pb8tb199yb59dkhf/branch/master?svg=true)](https://github.com/sbosell/serilog-enrichers-dynamic) [![NuGet Version](http://img.shields.io/nuget/v/Serilog.Enrichers.Dynamic.svg?style=flat)](https://www.nuget.org/packages/Serilog.Enrichers.Dynamic/)
+
 To use the enricher, first install the NuGet package:
 
 ```powershell
