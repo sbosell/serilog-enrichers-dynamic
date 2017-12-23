@@ -30,10 +30,10 @@ namespace Serilog
         /// <param name="enrichmentConfiguration">Logger enrichment configuration.</param>
         /// <returns>Configuration object allowing method chaining.</returns>
         public static LoggerConfiguration WithDynamic(
-          this LoggerEnrichmentConfiguration enrichmentConfiguration, Func<string> fx, string propertyName="DynamicProperty")
+          this LoggerEnrichmentConfiguration enrichmentConfiguration, Func<string> fx, string propertyName="DynamicProperty", bool logNullValue=true)
         {
             if (enrichmentConfiguration == null) throw new ArgumentNullException(nameof(enrichmentConfiguration));
-            return enrichmentConfiguration.With(new DynamicEnricher(fx, propertyName));
+            return enrichmentConfiguration.With(new DynamicEnricher(fx, propertyName, logNullValue));
         }
 
       

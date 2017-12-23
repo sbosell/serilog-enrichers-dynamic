@@ -16,7 +16,7 @@ Then, apply the enricher to you `LoggerConfiguration`:
 Log.Logger = new LoggerConfiguration()
     .Enrich.WithDynamic(()=> {
     	return AppContext.GetSomething(); 
-    	}, "DynamicProperty"
+    	}, "DynamicProperty", logNullValue: true
     // ...other configuration...
     .CreateLogger();
 ```
@@ -25,18 +25,16 @@ or for instance if you wanted to log the entire Service Stack Session:
 
 ```csharp
 Log.Logger = new LoggerConfiguration()
-    .Enrich.WithDynamic(() =>
-         {
-             var propVal = "";
-             if (HostContext.AppHost == null) return null; ;
-             var req = HostContext.TryGetCurrentRequest();
-             if (req != null && req.GetSession().IsAuthenticated)
-             {
-                 propVal = req.GetSession().ToJson();  // prob not the best idea but hey
-             }
-             return !String.IsNullOrEmpty(propVal) ? propVal : null;
-
-         }).CreateLogger();
+.Enrich.WithDynamic(() => {
+  var propVal = "";
+  if (HostContext.AppHost == null) return null; ;
+    var req = HostContext.TryGetCurrentRequest();
+    if (req != null && req.GetSession().IsAuthenticated)
+    {
+      propVal = req.GetSession().ToJson();  // prob not the best idea but hey
+    }
+    return !String.IsNullOrEmpty(propVal) ? propVal : null;
+}).CreateLogger();
 ```
 
 ### Included enrichers
