@@ -16,7 +16,7 @@ Then, apply the enricher to your `LoggerConfiguration`:
 
 ```csharp
 Log.Logger = new LoggerConfiguration()
-    .Enrich.WithDynamic("MyProperty", ()=> {
+    .Enrich.WithDynamicProperty("MyProperty", ()=> {
     	return AppContext.GetSomething(); 
     	}, enrichWhenNullOrEmptyString: false,destructureObjects: false, minimumLevel: LogEventLevel.Fatal
     // ...other configuration...
@@ -27,7 +27,7 @@ or for instance if you wanted to log the entire Service Stack Session:
 
 ```csharp
 Log.Logger = new LoggerConfiguration()
-.Enrich.WithDynamic("Session", () => {
+.Enrich.WithDynamicProperty("Session", () => {
   var propVal = "";
   if (HostContext.AppHost == null) return null; ;
     var req = HostContext.TryGetCurrentRequest();
@@ -43,7 +43,7 @@ Perhaps you want to include a property in the log that would cause an alert to b
 
 ```csharp
 Log.Logger = new LoggerConfiguration()
-   .Enrich.WithDynamic("SendAlert", () =>
+   .Enrich.WithDynamicProperty("SendAlert", () =>
          {
              var req = HostContext.TryGetCurrentRequest();
              if (req.GetType().HasAttribute<AlertOnErrorAttribute>())
