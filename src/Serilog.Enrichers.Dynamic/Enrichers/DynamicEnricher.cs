@@ -12,21 +12,31 @@ namespace Serilog.Enrichers
     {
 
         private string _propertyName;
-        private bool _logNullValue;
-        public Func<string> Fx { get; set; }
+        private bool _enrichWhenNullOrEmptyString;
+        private LogEventLevel _minimumLevel;
+        private bool _destructureObjects;
+
+        public Func<object> ValueProvider { get; set; }
         
-        public DynamicEnricher( Func<string> fx,string propertyName = "DynamicProperty", bool logNullValue=true) : base()
+        public DynamicEnricher(string propertyName, 
+                Func<object> valueProvider,
+                bool destructureObjects=false,
+                bool enrichWhenNullOrEmptyString = true,
+                LogEventLevel minimumLevel = LogEventLevel.Verbose) : base()
         {
-            Fx = fx;
+            ValueProvider = valueProvider;
             _propertyName = propertyName;
-            _logNullValue = logNullValue;
+            _enrichWhenNullOrEmptyString = enrichWhenNullOrEmptyString;
+            _minimumLevel = minimumLevel;
+            _destructureObjects = destructureObjects;
         }
         public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
         {
-            var logValue = Fx();
-            if (!string.IsNullOrEmpty(logValue) || _logNullValue)
+            var logValue = ValueProvider();
+
+            if ((_enrichWhenNullOrEmptyString || (logValue !=null || (logValue is String && !String.IsNullOrEmpty((string)logValue) ))) && logEvent.Level>=_minimumLevel)
             {
-                var prop = propertyFactory.CreateProperty(_propertyName,logValue);
+                var prop = propertyFactory.CreateProperty(_propertyName,logValue, _destructureObjects);
                 logEvent.AddPropertyIfAbsent(prop);
                
             } 

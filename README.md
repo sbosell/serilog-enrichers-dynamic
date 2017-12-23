@@ -14,9 +14,9 @@ Then, apply the enricher to you `LoggerConfiguration`:
 
 ```csharp
 Log.Logger = new LoggerConfiguration()
-    .Enrich.WithDynamic(()=> {
+    .Enrich.WithDynamic("MyProperty", ()=> {
     	return AppContext.GetSomething(); 
-    	}, "DynamicProperty", logNullValue: true
+    	}, enrichWhenNullOrEmptyString: false,destructureObjects: false, minimumLevel: LogEventLevel.Fatal
     // ...other configuration...
     .CreateLogger();
 ```
@@ -25,7 +25,7 @@ or for instance if you wanted to log the entire Service Stack Session:
 
 ```csharp
 Log.Logger = new LoggerConfiguration()
-.Enrich.WithDynamic(() => {
+.Enrich.WithDynamic("Session", () => {
   var propVal = "";
   if (HostContext.AppHost == null) return null; ;
     var req = HostContext.TryGetCurrentRequest();
@@ -37,11 +37,35 @@ Log.Logger = new LoggerConfiguration()
 }).CreateLogger();
 ```
 
+Perhaps you want to include a property in the log that would cause an alert to be issued to you from your centralized logging system:
+
+```csharp
+Log.Logger = new LoggerConfiguration()
+   .Enrich.WithDynamic("SendAlert", () =>
+         {
+             var req = HostContext.TryGetCurrentRequest();
+             if (req.GetType().HasAttribute<AlertOnErrorAttribute>())
+             {
+                 return "true";
+             }
+             return null;
+         }, enrichWhenNullOrEmptyString: false)
+}).CreateLogger();
+
+[AlertOnError]
+public void Post(SomeRequest request) {
+  // processing that might fail and this is important so we alert 
+}
+
+```
+
 ### Included enrichers
 
 The package includes:
 
- * `WithDynamic()` - adds a func delegate that you define to log whatever you require
+ * ` WithDynamicProperty(
+          this LoggerEnrichmentConfiguration enrichmentConfiguration, string name, Func<string> valueProvider,  bool destructureObjects=false, bool enrichWhenNullOrEmptyString = false, LogEventLevel minimumLevel= LogEventLevel.Verbose)
+        ` - adds a func delegate that you define to log whatever you require
  
 
 Copyright © 2017  Provided under the Apache License, Version 2.0.

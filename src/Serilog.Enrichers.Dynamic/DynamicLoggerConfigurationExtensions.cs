@@ -15,6 +15,7 @@
 using System;
 using Serilog.Configuration;
 using Serilog.Enrichers;
+using Serilog.Events;
 
 namespace Serilog
 {
@@ -29,11 +30,11 @@ namespace Serilog
         /// </summary>
         /// <param name="enrichmentConfiguration">Logger enrichment configuration.</param>
         /// <returns>Configuration object allowing method chaining.</returns>
-        public static LoggerConfiguration WithDynamic(
-          this LoggerEnrichmentConfiguration enrichmentConfiguration, Func<string> fx, string propertyName="DynamicProperty", bool logNullValue=true)
+        public static LoggerConfiguration WithDynamicProperty(
+          this LoggerEnrichmentConfiguration enrichmentConfiguration, string name, Func<string> valueProvider,  bool destructureObjects=false, bool enrichWhenNullOrEmptyString = false, LogEventLevel minimumLevel= LogEventLevel.Verbose)
         {
             if (enrichmentConfiguration == null) throw new ArgumentNullException(nameof(enrichmentConfiguration));
-            return enrichmentConfiguration.With(new DynamicEnricher(fx, propertyName, logNullValue));
+            return enrichmentConfiguration.With(new DynamicEnricher(name, valueProvider,destructureObjects, enrichWhenNullOrEmptyString, minimumLevel));
         }
 
       

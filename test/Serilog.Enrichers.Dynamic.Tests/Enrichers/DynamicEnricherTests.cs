@@ -13,10 +13,10 @@ namespace Serilog.Tests.Enrichers
         {
             LogEvent evt = null;
             var log = new LoggerConfiguration()
-                .Enrich.WithDynamic(() =>
+                .Enrich.WithDynamicProperty("MyProperty", () =>
                 {
                     return "value";
-                }, "MyProperty")
+                })
                 .WriteTo.Sink(new DelegatingSink(e => evt = e))
                 .CreateLogger();
 
@@ -26,38 +26,20 @@ namespace Serilog.Tests.Enrichers
             Assert.Equal("value", (string)evt.Properties["MyProperty"].LiteralValue());
         }
 
-        [Fact]
-        public void DynamicEnricherIsAppliedWithUnNamedProperty()
-        {
-            LogEvent evt = null;
-            var log = new LoggerConfiguration()
-                .Enrich.WithDynamic(() =>
-                {
-                    return "value";
-                })
-                .WriteTo.Sink(new DelegatingSink(e => evt = e))
-                .CreateLogger();
-
-            log.Information(@"Some sample log.");
-
-            Assert.NotNull(evt);
-
-            Assert.Equal("value", (string)evt.Properties["DynamicProperty"].LiteralValue());
-        }
-
+       
         [Fact]
         public void DynamicEnricherIsAppliedWithMulptileDynamicProperties()
         {
             LogEvent evt = null;
             var log = new LoggerConfiguration()
-                .Enrich.WithDynamic(() =>
+                .Enrich.WithDynamicProperty("Prop1", () =>
                 {
                     return "value";
                 })
-                .Enrich.WithDynamic(() =>
+                .Enrich.WithDynamicProperty("Prop2", () =>
                 {
                     return "value2";
-                }, "MyProperty2")
+                })
                 .WriteTo.Sink(new DelegatingSink(e => evt = e))
                 .CreateLogger();
 
@@ -65,8 +47,8 @@ namespace Serilog.Tests.Enrichers
 
             Assert.NotNull(evt);
 
-            Assert.Equal("value", (string)evt.Properties["DynamicProperty"].LiteralValue());
-            Assert.Equal("value2", (string)evt.Properties["MyProperty2"].LiteralValue());
+            Assert.Equal("value", (string)evt.Properties["Prop1"].LiteralValue());
+            Assert.Equal("value2", (string)evt.Properties["Prop2"].LiteralValue());
         }
 
         [Fact]
@@ -74,10 +56,10 @@ namespace Serilog.Tests.Enrichers
         {
             LogEvent evt = null;
             var log = new LoggerConfiguration()
-                .Enrich.WithDynamic(() =>
+                .Enrich.WithDynamicProperty("MyProp", () =>
                 {
                     return null;
-                }, logNullValue: false)
+                }, enrichWhenNullOrEmptyString: false)
                 
                 .WriteTo.Sink(new DelegatingSink(e => evt = e))
                 .CreateLogger();
@@ -85,17 +67,17 @@ namespace Serilog.Tests.Enrichers
             log.Information(@"Some sample log.");
 
             Assert.NotNull(evt);
-            Assert.False( evt.Properties.ContainsKey("DynamicProperty"));
+            Assert.False( evt.Properties.ContainsKey("MyProp"));
            }
         [Fact]
         public void DynamicEnricheLogNull()
         {
             LogEvent evt = null;
             var log = new LoggerConfiguration()
-                .Enrich.WithDynamic(() =>
+                .Enrich.WithDynamicProperty("MyProp", () =>
                 {
                     return null;
-                }, logNullValue: true)
+                }, enrichWhenNullOrEmptyString: true)
 
                 .WriteTo.Sink(new DelegatingSink(e => evt = e))
                 .CreateLogger();
@@ -103,8 +85,67 @@ namespace Serilog.Tests.Enrichers
             log.Information(@"Some sample log.");
 
             Assert.NotNull(evt);
-            Assert.Null(evt.Properties["DynamicProperty"].LiteralValue());
+            Assert.Null(evt.Properties["MyProp"].LiteralValue());
         }
+
+        [Fact]
+        public void DynamicEnricheLogEmptyString()
+        {
+            LogEvent evt = null;
+            var log = new LoggerConfiguration()
+                .Enrich.WithDynamicProperty("MyProp", () =>
+                {
+                    return string.Empty;
+                }, enrichWhenNullOrEmptyString: true)
+
+                .WriteTo.Sink(new DelegatingSink(e => evt = e))
+                .CreateLogger();
+
+            log.Information(@"Some sample log.");
+
+            Assert.NotNull(evt);
+            Assert.Empty((string)evt.Properties["MyProp"].LiteralValue());
+        }
+
+        [Fact]
+        public void DynamicEnricheLogIfErrorOrAbove()
+        {
+            LogEvent evt = null;
+            var log = new LoggerConfiguration()
+                .Enrich.WithDynamicProperty("MyProp", () =>
+                {
+                    return "value";
+                }, minimumLevel: LogEventLevel.Error)
+
+                .WriteTo.Sink(new DelegatingSink(e => evt = e))
+                .CreateLogger();
+
+            log.Fatal(@"Some sample log.");
+
+            Assert.NotNull(evt);
+            Assert.Equal((string)evt.Properties["MyProp"].LiteralValue(), "value");
+        }
+
+        [Fact]
+        public void DynamicEnricheDontLogIfNotFatal()
+        {
+            LogEvent evt = null;
+            var log = new LoggerConfiguration()
+                .Enrich.WithDynamicProperty("MyProp",() =>
+                {
+                    return "value";
+                },  minimumLevel: LogEventLevel.Fatal)
+
+                .WriteTo.Sink(new DelegatingSink(e => evt = e))
+                .CreateLogger();
+
+            log.Information(@"Some sample log.");
+
+            Assert.NotNull(evt);
+            Assert.False(evt.Properties.ContainsKey("MyProp"));
+        }
+
+        
     }
 
   
