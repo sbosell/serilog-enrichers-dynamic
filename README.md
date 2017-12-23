@@ -4,13 +4,15 @@ Enriches Serilog events with information that you specify dynamically.  There ar
  
 [![Build status](https://ci.appveyor.com/api/projects/status/pb8tb199yb59dkhf/branch/master?svg=true)](https://github.com/sbosell/serilog-enrichers-dynamic) [![NuGet Version](http://img.shields.io/nuget/v/Serilog.Enrichers.Dynamic.svg?style=flat)](https://www.nuget.org/packages/Serilog.Enrichers.Dynamic/)
 
+Breaking changes.  I made some changes to the parameter names and ordering to keep it consistent with some of the other enrichers.  In the future I'll bump the major version.
+
 To use the enricher, first install the NuGet package:
 
 ```powershell
 Install-Package Serilog.Enrichers.Dynamic
 ```
 
-Then, apply the enricher to you `LoggerConfiguration`:
+Then, apply the enricher to your `LoggerConfiguration`:
 
 ```csharp
 Log.Logger = new LoggerConfiguration()
